@@ -1,0 +1,50 @@
+2019-10-21 10:26:57,623 [Thread-3] WARN  org.apache.hadoop.util.NativeCodeLoader - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2019-10-21 10:26:58,798 [Thread-3] WARN  org.apache.spark.util.Utils - Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+2019-10-21 10:26:58,815 [Thread-3] WARN  org.apache.spark.util.Utils - Service 'SparkUI' could not bind on port 4041. Attempting port 4042.
+spark.app.id=local-1571633819332
+hive.metastore.warehouse.dir=file:/Users/kkartikgoel/dev/Python_Projects/SparkFinal/spark-warehouse/
+spark.files=configs/etl_config.json
+spark.driver.port=54860
+spark.rdd.compress=True
+spark.driver.host=192.168.1.37
+spark.serializer.objectStreamReset=100
+spark.master=local[*]
+spark.executor.id=driver
+spark.submit.deployMode=client
+spark.app.name=prod
+Spark WebURL= http://192.168.1.37:4042
+spark_files_dir= /private/var/folders/13/1xt_y1253kn5qfs6sqw2pmtr0000gn/T/spark-5ef33b5a-68b2-41c6-ad5a-79f1fb7da878/userFiles-2d02f153-513e-48eb-abda-9a61b817e652
+file_in_Spark_dir= [u'sparkprod.py']
++--------------------+--------------------+--------------------+
+|                 key|               value|             meaning|
++--------------------+--------------------+--------------------+
+|spark.sql.sources...|                  32|The maximum numbe...|
+|spark.sql.shuffle...|                 200|The default numbe...|
+|spark.sql.hive.me...|                true|When true, some p...|
+|spark.sql.broadca...|                 300|Timeout in second...|
+|spark.sql.sources...|                true|When false, we wi...|
+|spark.sql.optimiz...|                true|When true, enable...|
+|spark.sql.streami...|               false|Whether Dropwizar...|
+|spark.sql.parquet...|                true|Enables Parquet f...|
+|spark.sql.statist...|               false|If the table stat...|
+|spark.sql.adaptiv...|               false|When true, enable...|
+|spark.sql.parquet...|                true|Turns on caching ...|
+|spark.sql.parquet...|               false|When true, we mak...|
+|spark.sql.warehou...|file:/Users/kkart...|The default locat...|
+|spark.sql.orderBy...|                true|When true, the or...|
+|spark.sql.groupBy...|                true|When true, the or...|
+|spark.sql.thrifts...|         <undefined>|Set a Fair Schedu...|
+|spark.sql.orc.fil...|               false|When true, enable...|
+|spark.sql.adaptiv...|           67108864b|The target post-s...|
+|spark.sql.sources...|             parquet|The default data ...|
+|spark.sql.parquet...|              snappy|Sets the compress...|
++--------------------+--------------------+--------------------+
+only showing top 20 rows
+
+2019-10-21 10:27:03,945 [Thread-3] ERROR <prod local-1571633819332> - Read files
+Traceback (most recent call last):
+  File "/Users/kkartikgoel/dev/Python_Projects/SparkFinal/src/sparkprod.py", line 82, in <module>
+    log.error("Read files")
+  File "/Users/kkartikgoel/dev/Python_Projects/SparkFinal/dependencies/logging.py", line 32, in error
+    raise Exception
+Exception

@@ -1,0 +1,7 @@
+{
+  "appname"  : "firstapp",
+  "hdfsurl"  :   "hdfs://localhost:9001/",
+  "hdfsbasepath" : "/lake/files",
+  "dateformat"  :  "%Y%m%d"
+
+}
