@@ -23,7 +23,8 @@ STORED AS textFile
 LOCATION '/lake/files/';
 
 ALTER TABLE nse ADD PARTITION (rundate=20190914) LOCATION '/lake/files/';
-ALTER TABLE nse ADD PARTITION (rundate=20190915) LOCATION '/lake/files/';
+ALTER TABLE nse DROP PARTITION (rundate=20190915) 
+ALTER TABLE nse ADD PARTITION (rundate=20190915) LOCATION '/lake/files/rundate=20190915';
 
 --2010-12-01.csv
 

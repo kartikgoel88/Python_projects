@@ -2,8 +2,8 @@
 import os,sys
 from os.path import abspath
 import csv
-import pandas as pd
-import numpy as np
+#import pandas as pd
+#import numpy as np
 from pyspark import SparkFiles,SparkConf, SparkContext
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
@@ -21,11 +21,13 @@ def start_spark(app,files=[],pyfiles=[]):
 
 ## Spark Session ##
     spark_builder = SparkSession.builder.appName(app).master('local[*]')
-    spark_builder.config('spark.files',*files)
+    spark_builder.config('spark.files',"SparkFinal/configs/etl_config.json,/usr/local/Cellar/hive/2.1.0/libexec/conf/hive-site.xml")
     #spark_builder.config('spark.logConf','true')
     #spark_builder.config('spark.jars.repositories','/Users/kkartikgoel/dev/spark-2.1.0-bin-hadoop2.7/jars')
     #spark_builder.config('spark.jars.packages','com.databricks:spark-avro_2.10:1.0.0')
-    spark_sess = spark_builder.getOrCreate()
+    #spark_builder.config('spark.jars.packages','com.databricks:spark-avro_2.10:1.0.0')
+    #spark_builder.config('hive.metastore.uris','thrift://localhost:9083')
+    spark_sess = spark_builder.enableHiveSupport().getOrCreate()
 ##properties
     spark_conf_list = spark_sess.sparkContext.getConf().getAll()
     for key,val in spark_conf_list:
@@ -61,9 +63,9 @@ class spark_file_handler():
         #print spark.sql('select count(*) as dfcount from test').collect()
         return dfname
 
-    def read_hive():
+    def read_hive(self):
         hive_df = spark.sql("select * from nse")
-        pass
+        return hive_df
 
     def read_db():
         pass
@@ -71,21 +73,21 @@ class spark_file_handler():
 if __name__ == '__main__':
     #os.unsetenv('PYSPARK_SUBMIT_ARGS')
     #del os.environ["PYSPARK_SUBMIT_ARGS"]
-    #print(os.environ["PYSPARK_SUBMIT_ARGS"]) #print(os.environ)
+    #print(os.environ["PYSPARK_SUBMIT_ARGS"]) #print(os.environ)["configs/etl_config.json"]
 
-    spark,configpath,log= start_spark("prod",["configs/etl_config.json"],"test")
-
-
+    spark,configpath,log= start_spark("prod","[configs/etl_config.json,/usr/local/Cellar/hive/2.1.0/libexec/conf/hive-site.xml]","test")
 #checks and balances
     #rc = python_file_handler().check_zerobyte("rundate=20190914","sec_bhavdata_full.csv")
     #print rc
 #reading
-    log.error("Read files")
+    log.info("Read files")
     #avrodf = spark_file_handler().read_file(spark,"com.databricks.spark.avro","resources/users.avro","dropMalformed")
     csvdf = spark_file_handler().read_csv(spark,"hdfs://localhost:9001/lake/files/rundate=20190915/sec_bhavdata_full.csv")
     csvdf1 = spark_file_handler().read_csv(spark,"hdfs://localhost:9001/lake/files/rundate=20191001/sec_bhavdata_full_20191001.csv")
     #csvdf.show(20)
     #parquetdf = spark_file_handler().read_file(spark,"parquet","SparkFinal/resources/namesAndFavColors.parquet","failFast")
+    hivedf = spark_file_handler().read_hive()
+    hivedf.show()
 #cleaning nulls spaces duplicates
     csvdf = csvdf.toDF(*map(str.strip,csvdf.columns)) # trimmed columns names
     csvdf1 = csvdf1.toDF(*map(str.strip,csvdf1.columns)) # trimmed columns names
@@ -120,7 +122,7 @@ if __name__ == '__main__':
     #csvdf.select(col("SYMBOL").alias("NEW_COLUMN_NAME")).show(1)
 
 # dataframes -> tables -> dataframes ->rdd -> json
-    #csvdf.createOrReplaceTempView("nse_data")
+    csvdf.createOrReplaceTempView("nse_data")
     #csvdf.toJSON().collect() #rdd
     #csvdf.toPandas()
 
@@ -190,17 +192,16 @@ if __name__ == '__main__':
     #coalesce
     #csvdf.repartition(4).show()
 
-
 #udf
 
 #writing
     #spark_file_handler().write_file(spark,csvdf1,"parquet","hdfs://localhost:9001/lake/files/rundate=20190916")
-
+    #spark.sql("CREATE TABLE newhive as select * from nse_data")
+    #csvdf.write.format("parquet").saveAsTable("testhive")
 #hive partition
 
 #rdd use
     csvdf.filter(col("SYMBOL").startswith("KOTAK")).rdd.collect()
-
     csvdf.filter(col("SYMBOL").startswith("KOTAK")).rdd.keyBy(lambda word: word[0]).collect()
     csvdf.filter(col("SYMBOL").startswith("KOTAK")).rdd.mapValues(lambda word: word.upper()).collect()
     csvdf.filter(col("SYMBOL").startswith("KOTAK")).rdd.keys().collect()

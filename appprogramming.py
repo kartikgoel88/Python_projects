@@ -1,14 +1,403 @@
-import numpy as np
+#import numpy as np
 import io,re
-from StringIO import StringIO
+
 from datetime import datetime
 import pdb
 from os import environ, listdir, path
 
 
 pdb.set_trace()
-environ
-.keys()
+environ.keys()
+
+
+import inspect
+import re
+import unittest
+import math
+'''
+
+
+# Define class 'Circle' and its methods with proper doctests:
+class Circle():
+
+    def __init__(self, radius):
+        # Define initialization method:
+        #print(radius)
+        if not isinstance(radius,(int,float)):
+            #print('not number')
+            raise TypeError("radius must be a number")
+        if ( radius > 1000 or radius < 0):
+            #print('not valid')
+            raise ValueError("radius must be between 0 and 1000 inclusive")
+        self.radius=radius
+        #print(self.radius)
+
+    def area(self):
+        # Define area functionality:
+        #print(round(math.pi*2*self.radius,2))
+        return round(math.pi*(self.radius**2),2)
+
+    def circumference(self):
+        # Define circumference functionality:
+        #print(round(math.pi*2*self.radius,2))
+        return round(math.pi*2*self.radius,2)
+
+
+class TestCircleCircumference():
+    def test_circlecircum_with_random_numeric_radius(self):
+        c1 = Circle(2.5)
+        assert_equals(c1.circumference(),15.71)
+    def test_circlecircum_with_min_radius(self):
+        c2 = Circle(0)
+        assert_equals(c1.circumference(),0)
+    def test_circlecircum_with_max_radius(self):
+        c3 = Circle(1000)
+        assert_equals(c3.circumference(),6283.19)
+
+
+
+class TestCircleCreation(unittest.TestCase):
+
+    def test_creating_circle_with_numeric_radius(self):
+        # Define a circle 'c1' with radius 2.5, and check if
+        # the value of c1.radius is equal to 2.5 or not.
+        c1 = Circle(2.5)
+        self.assertEqual(c1.radius,2.5)
+
+
+    def test_creating_circle_with_negative_radius(self):
+        # Define a circle 'c' with radius -2.5, and check
+        # if it raises a ValueError with the message
+        # "radius must be between 0 and 1000 inclusive".
+        with self.assertRaises(ValueError) as e:
+            c = Circle(-2.5)
+        #print(str(e.exception))
+        self.assertEqual(str(e.exception), "radius must be between 0 and 1000 inclusive")
+        self.assertRaises(ValueError,Circle,-2.5)
+
+
+    def test_creating_circle_with_greaterthan_radius(self):
+        # Define a circle 'c' with radius 1000.1, and check
+        # if it raises a ValueError with the message
+        # "radius must be between 0 and 1000 inclusive".
+        with self.assertRaises(ValueError) as e:
+            c = Circle(1000.1)
+        self.assertEqual(str(e.exception), "radius must be between 0 and 1000 inclusive")
+        self.assertRaises(ValueError,Circle,1000.1)
+
+
+        #self.assertRaises(ValueError,Circle,1000.1)
+
+    def test_creating_circle_with_nonnumeric_radius(self):
+        # Define a circle 'c' with radius 'hello' and check
+        # if it raises a TypeError with the message
+        # "radius must be a number".
+        with self.assertRaises(TypeError) as e:
+            c = Circle('hello')
+        self.assertEqual(str(e.exception), "radius must be a number")
+        #self.assertRaises(TypeError,Circle,'hello')
+
+    def test_circlearea_with_random_numeric_radius(self):
+        # Define a circle 'c1' with radius 2.5, and check if
+        # its area is 19.63.
+        c1 = Circle(2.5)
+        self.assertEqual(c1.area(),19.63)
+
+    def test_circlearea_with_min_radius(self):
+        # Define a circle 'c2' with radius 0, and check if
+        # its area is 0.
+        c2 = Circle(0)
+        self.assertEqual(c2.area(),0)
+
+    def test_circlearea_with_max_radius(self):
+        # Define a circle 'c3' with radius 1000.1. and check if
+        # its area is 3141592.65.
+        c3 = Circle(1000)
+        self.assertEqual(c3.area(),3141592.65)
+
+c =Circle(7)
+print(c.area(),c.circumference())
+#Circle(1000.1)
+#Circle('hello')
+'''
+class Circle():
+
+    def __init__(self, radius):
+        # Define initialization method:
+        if not isinstance(radius,(int,float)):
+            #print('not number')
+            raise TypeError("radius must be a number")
+        if ( radius > 1000 or radius < 0):
+            #print('not valid')
+            raise ValueError("radius must be between 0 and 1000 inclusive")
+        self.radius=radius
+        #print(self.radius)
+
+    def area(self):
+        # Define area functionality:
+        #print(round(math.pi*2*self.radius,2))
+        return round(math.pi*(self.radius**2),2)
+
+    def circumference(self):
+        # Define circumference functionality:
+        #print(round(math.pi*2*self.radius,2))
+        return round(math.pi*2*self.radius,2)
+
+class TestCircleArea(unittest.TestCase):
+
+    def test_circlearea_with_random_numeric_radius(self):
+        # Define a circle 'c1' with radius 2.5, and check if
+        # its area is 19.63.
+        c1 = Circle(2.5)
+        self.assertEqual(c1.area(),19.63)
+
+    def test_circlearea_with_min_radius(self):
+        # Define a circle 'c2' with radius 0, and check if
+        # its area is 0.
+        c2 = Circle(0)
+        self.assertEqual(c2.area(),0)
+
+    def test_circlearea_with_max_radius(self):
+        # Define a circle 'c3' with radius 1000.1. and check if
+        # its area is 3141592.65.
+        c3 = Circle(1000)
+        self.assertEqual(c3.area(),3141592.65)
+
+if __name__ == '__main__':import inspect
+import re
+import unittest
+import math
+
+class Circle():
+
+    def __init__(self, radius):
+        # Define initialization method:
+        if not isinstance(radius,(int,float)):
+            #print('not number')
+            raise TypeError("radius must be a number")
+        if ( radius > 1000 or radius < 0):
+            #print('not valid')
+            raise ValueError("radius must be between 0 and 1000 inclusive")
+        self.radius=radius
+        #print(self.radius)
+
+    def area(self):
+        # Define area functionality:
+        #print(round(math.pi*2*self.radius,2))
+        return round(math.pi*(self.radius**2),2)
+
+    def circumference(self):
+        # Define circumference functionality:
+        #print(round(math.pi*2*self.radius,2))
+        return round(math.pi*2*self.radius,2)
+
+class TestCircleArea(unittest.TestCase):
+
+    def test_circlearea_with_random_numeric_radius(self):
+        # Define a circle 'c1' with radius 2.5, and check if
+        # its area is 19.63.
+        c1 = Circle(2.5)
+        self.assertEqual(c1.area(),19.63)
+
+    def test_circlearea_with_min_radius(self):
+        # Define a circle 'c2' with radius 0, and check if
+        # its area is 0.
+        c2 = Circle(0)
+        self.assertEqual(c2.area(),0)
+
+    def test_circlearea_with_max_radius(self):
+        # Define a circle 'c3' with radius 1000.1. and check if
+        # its area is 3141592.65.
+        c3 = Circle(1000)
+        self.assertEqual(c3.area(),3141592.65)
+
+if __name__ == '__main__':
+
+'''
+    
+class Circle:
+
+    def __init__(self, radius):
+        # Define initialization method:
+        self.radius=radius
+        if not isinstance(self.radius,(int,float)):
+            raise TypeError("radius must be a number")
+        elif(self.radius>1000 or self.radius<0):
+            raise ValueError("radius must be between 0 and 1000 inclusive")
+        else:
+            pass
+
+    def area(self):
+        # Define area functionality:
+        return math.pi*(self.radius**2)
+
+    def circumference(self):
+        # Define circumference functionality:
+        return math.pi*2*self.radius
+
+
+
+class TestCircleCreation(unittest.TestCase):
+
+    def test_creating_circle_with_numeric_radius(self):
+        # Define a circle 'c1' with radius 2.5, and check if
+        # the value of c1.radius is equal to 2.5 or not.
+        c1 = Circle(2.5)
+        self.assertEqual(c1.radius,2.5)
+
+
+    def test_creating_circle_with_negative_radius(self):
+
+        # Define a circle 'c' with radius -2.5, and check
+        # if it raises a ValueError with the message
+        # "radius must be between 0 and 1000 inclusive".
+        #with self.assertRaises(ValueError) as e:
+        c1 = Circle(-2.5)
+        self.assertRaises(ValueError)
+
+
+    def test_creating_circle_with_greaterthan_radius(self):
+        # Define a circle 'c' with radius 1000.1, and check
+        # if it raises a ValueError with the message
+        # "radius must be between 0 and 1000 inclusive".
+        c1 = Circle(1000.1)
+        self.assertRaises(ValueError)
+
+
+    def test_creating_circle_with_nonnumeric_radius(self):
+        self.assertRaises(TypeError,Circle,'hello')
+
+
+import inspect
+import re
+import unittest
+import math
+
+# Define class 'Circle' and its methods with proper doctests:
+class Circle:
+
+    def __init__(self, radius):
+        # Define initialization method:
+
+        if not isinstance(radius,(float,int)):
+            raise TypeError("radius must be a number")
+        if 1000 <= radius <=  0:
+            raise ValueError("radius must be between 0 and 1000 inclusive")
+        self.radius = radius
+
+    def area(self):
+        # Define area functionality:
+        return math.pi*self.radius*self.radius
+
+    def circumference(self):
+        # Define circumference functionality:
+        return math.pi*2*self.radius
+
+
+
+class TestCircleCreation(unittest.TestCase):
+
+    def test_creating_circle_with_numeric_radius(self):
+        # Define a circle 'c1' with radius 2.5, and check if
+        # the value of c1.radius is equal to 2.5 or not.
+        c1 = Circle(2.5)
+        self.assertEqual(c1.radius,2.5)
+
+
+    def test_creating_circle_with_negative_radius(self):
+
+        # Define a circle 'c' with radius -2.5, and check
+        # if it raises a ValueError with the message
+        # "radius must be between 0 and 1000 inclusive".
+        #with self.assertRaises(ValueError) as e:
+        c = Circle(-2.5)
+        self.assertRaises(ValueError)
+
+
+    def test_creating_circle_with_greaterthan_radius(self):
+        # Define a circle 'c' with radius 1000.1, and check
+        # if it raises a ValueError with the message
+        # "radius must be between 0 and 1000 inclusive".
+        c = Circle(1000.1)
+        self.assertRaises(ValueError)
+
+
+    def test_creating_circle_with_nonnumeric_radius(self):
+        c2 = Circle('hello')
+        self.assertRaises(TypeError)
+
+
+if __name__ == '__main__':'''
+
+# Define the class 'Circle' and its methods with proper doctests:
+class Circle:
+
+    def __init__(self, radius):
+        # Define doctests for __init__ method:
+        """
+        >>> c1 = Circle(2.5)
+        >>> c1.radius
+        2.5
+        """
+        self.radius = radius
+
+    def area(self):
+        # Define doctests for area method:
+        """
+        >>> c1 = Circle(2.5)
+        >>> c1.area()
+        19.63
+        """
+        # Define area functionality:
+        return round(3.14*(self.radius)*(self.radius),2)
+
+
+
+    def circumference(self):
+        # Define doctests for circumference method:
+        """
+        >>> c1 = Circle(2.5)
+        >>> c1.circumference()
+        15.71
+        """
+        # Define circumference functionality:
+        return round(2*3.14*(self.radius),2)
+
+c1 = Circle(2.5)
+print(c1.radius)
+
+# Complete the following isPalindrome function:
+def isPalindrome(x):
+    # Write the doctests:
+    """
+    >>> isPalindrome(121)
+    True
+    >>> isPalindrome(344)
+    False
+    >>> isPalindrome(-121)
+    Traceback (most recent call last):
+    ValueError: x must be positive integer
+    >>> isPalindrome("hello")
+    Traceback (most recent call last):
+    TypeError: x must be an integer
+    """
+    # Write the functionality:
+    try:
+        if x < 0:
+            raise ValueError
+        elif isinstance(x,str):
+            raise TypeError
+        else:
+            revn = int(''.join(reversed(str(x))))
+            if x == revn:
+                return True
+            return False
+    except ValueError:
+        raise ValueError("x must be positive integer")
+    except TypeError:
+        raise TypeError("x must be an integer")
+
+
 #Write detecter implementation
 def detecter(element):
     def isIn(sequence):

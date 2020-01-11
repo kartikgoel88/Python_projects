@@ -1,8 +1,8 @@
 import os,sys
 from os.path import abspath
-import csv
-import pandas as pd
-import numpy as np
+#import csv
+#import pandas as pd
+#import numpy as np
 from subprocess import Popen,PIPE
 import logging
 
@@ -27,7 +27,7 @@ def log():
     return logger
 
 def command():
-    cmd = "spark-submit --verbose src/sparkprod.py > python_spark.log"
+    cmd = "spark-submit --verbose sparkprod.py > python_spark.log"
     proc = Popen(cmd,shell=True,stdout=PIPE,stderr=PIPE)
     stdout,stderr = proc.communicate()
     print( stdout,stderr )
@@ -59,7 +59,12 @@ if __name__ == '__main__':
     #python_file_handler().copy_hdfs("20191001","sec_bhavdata_full_20191001.csv")
     logger = log()
     logger.info("Starting Main Wrapper")
+    logger.info("Setting Environment Variables : shell script")
     logger.info("Environment Variables : %s " % env_vars())
     #print(os.path.realpath(__file__))
-    logger.info("Submitting Spark Job")
+    logger.info("Readin and Initializing Conifgs and Properties")
+    logger.info("Making directories for HDFS Files")
+    logger.info("Submitting transformation Spark Job " )
     logger.info(command())
+    logger.info("Running Metadata Refresh")
+

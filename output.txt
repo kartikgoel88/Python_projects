@@ -1,0 +1,21 @@
+FF..
+======================================================================
+FAIL: test_creating_circle_with_greaterthan_radius (__main__.TestCircleCreation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/kkartikgoel/dev/Python_Projects/pytestss.py", line 50, in test_creating_circle_with_greaterthan_radius
+    self.assertRaises(ValueError,Circle,1000.1)
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_creating_circle_with_negative_radius (__main__.TestCircleCreation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/kkartikgoel/dev/Python_Projects/pytestss.py", line 43, in test_creating_circle_with_negative_radius
+    self.assertRaises(ValueError,Circle,-2.5)
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.004s
+
+FAILED (failures=2)
