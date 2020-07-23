@@ -6,8 +6,8 @@ import numpy as np
 from pyspark import SparkContext
 from pyspark.sql import SparkSession
 from pyspark.sql import Row
-from pyspark.sql.functions import explode,split,expr, col, column,lit,pow,round,bround,corr,count,mean, stddev_pop, min, max,monotonically_increasing_id
-from pyspark.sql.types import StructField, StructType, StringType, LongType
+from pyspark.sql.functions import concat,concat_ws,explode,split,expr, col, column,lit,pow,round,bround,corr,count,mean, stddev_pop, min, max,monotonically_increasing_id
+from pyspark.sql.types import StructField, StructType, StringType, LongType,IntegerType,DataType
 import pyspark.sql.functions as fspark
 import collections
 
@@ -81,17 +81,28 @@ df.select(monotonically_increasing_id(),"*").show(2)
 #complex type  structs, arrays, and maps.
 
 df.select(split(col("Description"), " ").alias("array_col")).selectExpr("array_col[0]").show(2)
+df.withColumn("joinedcol", concat(col("Description"),col("InvoiceNo"))).select("joinedcol").show(2,False)
+df.withColumn("joinedcol", concat_ws('-',col("Description"),col("InvoiceNo"))).select("joinedcol").show(2,False)
+
+df.selectExpr("struct(Description, InvoiceNo) as complex", "*").show(3,False)
 df.withColumn("splitted", split(col("Description"), " "))\
   .withColumn("exploded", explode(col("splitted")))\
-  .select("Description", "InvoiceNo", "exploded").show(2)
+  .select("Description", "InvoiceNo", "exploded","splitted").show(2,False)
 
 
-from pyspark.sql.functions import create_map
-df.select(create_map(col("Description"), col("InvoiceNo")).alias("complex_map"))
+from pyspark.sql.functions import create_map,udf
+df.select(create_map(col("Description"), col("InvoiceNo")).alias("complex_map")).show()
 df.select(create_map(col("Description"), col("InvoiceNo")).alias("complex_map")).selectExpr("complex_map['WHITE METAL LANTERN']").show(2)
 df.select(create_map(col("Description"), col("InvoiceNo")).alias("complex_map")).select(expr("explode(complex_map)")).show(2)
 e = df.Description
-e
+
+def cube(num):
+    return num * 3
+df.show()
+udf_f=udf(cube)
+df.select(df.InvoiceNo.cast(IntegerType()))
+
+df.select(udf_f(df.InvoiceNo.cast(IntegerType()))).show(2)
 e1 = create_map([df.Description,df.InvoiceNo]).alias("test")
 e2 = create_map(col("Description"),col("InvoiceNo")).alias("test1")
 e1

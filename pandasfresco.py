@@ -1,6 +1,43 @@
 import pandas as pd
 import numpy as np
-import os
+import os,math
+
+
+pi = math.pi
+np.arccos(2/(np.sqrt(3)*np.sqrt(2)))*(180/pi) # returns 18.434948822922017
+
+# Defining the three dataframes indicating the gold, silver, and bronze medal counts
+# of different countries
+gold = pd.DataFrame({'Country': ['USA', 'France', 'Russia'],
+                         'Medals': [15, 13, 9]}
+                    )
+silver = pd.DataFrame({'Country': ['USA', 'Germany', 'Russia'],
+                        'Medals': [29, 20, 16]}
+                    )
+bronze = pd.DataFrame({'Country': ['France', 'USA', 'UK'],
+                        'Medals': [40, 28, 27]}
+                    )
+
+gold.add(silver,axis=1)
+print(pd.concat([gold,silver,bronze]).groupby(['Country']).sum(numeric_only=float).astype(float).sort_values(['Medals'],ascending=False))
+
+a = np.array([[4, 3, 1], [5, 7, 0], [9, 9, 3], [8, 2, 4]])
+m = 0
+n = 2
+a[m]
+a[n]
+# Write your code for swapping here
+b = []
+c = []
+b = a[m]
+c= a[n]
+print(b)
+print(c)
+a[m] = c
+a[n] = b
+
+# Print the array after swapping
+print(a)
 
 list = [176.2,158.4,167.6,156.2,161.4]
 heights_A = pd.Series([176.2,158.4,167.6,156.2,161.4],index=['s1', 's2', 's3', 's4','s5'])
@@ -29,7 +66,7 @@ df_B
 df_B.Student_height
 df_B['Student_height']
  #row
-df_B.loc[['s2','s1']]
+df_B.iloc[[1,2]]
 df_B.iloc[1]
 #slicing
 df_B.index.str.endswith(('1','4'))
@@ -46,10 +83,16 @@ df_A.to_csv('data_fresco_excercise.csv',index=False)
 df_A.to_csv('data_fresco_excercise.csv',index=True)
 os.path.exists('data_fresco_excercise.csv')
 df_A2 = pd.read_csv('data_fresco_excercise.csv')
+df_A2 = pd.read_csv('2010-12-01.csv')
+
 df_A3 = pd.read_csv('data_fresco_excercise.csv',index_col=0)
 df_A4 = pd.read_csv('data_fresco_excercise.csv',header=None)
 df_A5 = pd.read_csv('data_fresco_excercise.csv',header=None,skiprows=1)
-df_A2
+df_A2['Quantity'].mean()
+df_A2.loc[pd.isnull(df_A2['Quantity'])]
+pd.isnull(df_A2['Quantity'])
+df_A2[df_A2.isnull().sum(axis=1) > 5]
+(df_A2.isnull().sum() /len(df_A2.index))*100
 df_A2.index
 df_A2.shape
 df_A3
