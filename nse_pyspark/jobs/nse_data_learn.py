@@ -41,24 +41,25 @@ spark = SparkSession.builder.appName("NSE").getOrCreate()
 df =  spark.read.csv("hdfs://localhost:9001/lake/files/rundate=20190915/sec_bhavdata_full.csv",header=True,inferSchema=True)
 df.printSchema()
 df.show(3)
-df.columns
-header = df.first()
-print header
-header.show()
+print(df.columns)
+#header = df.first()
+#print header
+#header.show()
 
-[str.strip(column) for column in df.columns]
-df.withColumnRenamed(" DATE1",str.strip(" DATE1")).columns
+#print([str.strip(column) for column in df.columns])
+#print(map(str.strip,df.columns))
+#df.withColumnRenamed(" DATE1",str.strip(" DATE1")).columns
 df_strip_spaces = df.toDF(*map(str.strip,df.columns))
 
 df_strip_spaces.show(3)
-df_strip_spaces.columns
+print(df_strip_spaces.columns)
 
 df_strip_spaces.select(ltrim(df_strip_spaces["SYMBOL"])).show()
 df_strip_spaces.select(lower(df_strip_spaces["SYMBOL"])).show()
 df_strip_spaces.select(upper(df_strip_spaces["SYMBOL"])).show()
 df_strip_spaces.select(lpad(df_strip_spaces["SYMBOL"],20,'0')).show()
 df_strip_spaces.DATE1
-df_strip_spaces.select(to_date(df_strip_spaces.DATE1),'dd-mmm-yyyy').show()
+#df_strip_spaces.select(to_date(df_strip_spaces.DATE1),'dd-mmm-yyyy').show()
 
 
 df_strip_spaces.select(col('SYMBOL')).show(3)
@@ -77,9 +78,9 @@ df_strip_spaces.orderBy("OPEN_PRICE").where("SERIES like '%EQ'").show(3)
 #df.filter(df.SYMBOL.startswith("KOTAK")).show()
 #df.filter(col("SYMBOL").startswith("KOTAKBANK")).show()
 #df.columns.str.replace(' ','')
-df.select(regexp_replace("OPEN_PRICE"," ","")).show(5)
-df.where(col("SERIES").like("%EQ")).orderBy(desc(" OPEN_PRICE")).describe().show()
-df_strip_spaces.where(col(" SERIES").like("%EQ")).orderBy(to_date(col("DATE1"))).
+#df.select(regexp_replace("OPEN_PRICE"," ","")).show(5)
+#df.where(col("SERIES").like("%EQ")).orderBy(desc(" OPEN_PRICE")).describe().show()
+#df_strip_spaces.where(col(" SERIES").like("%EQ")).orderBy(to_date(col("DATE1")))
 
 #counts aggregations
 df_strip_spaces.count()
@@ -94,7 +95,7 @@ df_strip_spaces.groupBy("SERIES","SYMBOL").count().show()
 df_strip_spaces.where("SYMBOL like '%BANK%'").groupBy("SERIES").avg().show()
 df_strip_spaces.select(avg("OPEN_PRICE"))
 df_strip_spaces.select(var_pop("OPEN_PRICE"),stddev_pop("OPEN_PRICE")).show()
-df.select(covar_pop("OPEN PRICE","CLOSE PRICE"),corr("OPEN PRICE","CLOSE PRICE")).show()
+#df.select(covar_pop("OPEN PRICE","CLOSE PRICE"),corr("OPEN PRICE","CLOSE PRICE")).show()
 
 windowSpec = Window.partitionBy("SYMBOL",to_date("DATE1")).orderBy(to_date("DATE1")).rowsBetween(Window.unboundedPreceding, Window.currentRow)
 win = sum(col("OPEN PRICE")).over(windowSpec)
