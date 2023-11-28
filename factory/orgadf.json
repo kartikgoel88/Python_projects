@@ -1,0 +1,15 @@
+{
+	"name": "orgadf",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned,UserAssigned",
+		"principalId": "a7700269-fee6-4f9e-8de1-2353bf4612d4",
+		"tenantId": "f7320e70-57c6-44fc-9a64-8eed251365b3",
+		"userAssignedIdentities": {
+			"/subscriptions/096b3c59-ed93-4582-a162-60f75dd6e495/resourcegroups/drishtech/providers/Microsoft.ManagedIdentity/userAssignedIdentities/salesidentity": {
+				"clientId": "8f685094-85ea-4291-8997-7f2b4e58760a",
+				"principalId": "fbf821ff-a21b-4954-8b9d-74c88282b6ca"
+			}
+		}
+	}
+}
